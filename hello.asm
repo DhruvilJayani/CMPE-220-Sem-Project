@@ -1,37 +1,45 @@
-; hello.asm – writes ASCII codes for "HELLO\n" into memory
-; Works with current 5-bit immediate assembler (no UART needed)
+; hello.asm – builds ASCII manually to get real output values
+; R1 = memory index
+; R2 = character builder register
 
-; R1 = memory pointer
-; R2 = character register
+MOV R1, #0      ; memory pointer = 0
 
-MOV R1, #0      ; start writing at memory[0]
-
-; H
-MOV R2, #72
+; ---------------- H (72) ----------------
+MOV R2, #31
+ADD R2, #31     ; 31 + 31 = 62
+ADD R2, #10     ; 62 + 10 = 72
 SW R2, R1
 ADD R1, #1
 
-; E
-MOV R2, #69
+; ---------------- E (69) ----------------
+MOV R2, #31
+ADD R2, #31     ; 62
+ADD R2, #7      ; 62 + 7 = 69
 SW R2, R1
 ADD R1, #1
 
-; L
-MOV R2, #76
+; ---------------- L (76) ----------------
+MOV R2, #31
+ADD R2, #31     ; 62
+ADD R2, #14     ; 62 + 14 = 76
 SW R2, R1
 ADD R1, #1
 
-; L
-MOV R2, #76
+; ---------------- L (76) AGAIN ----------
+MOV R2, #31
+ADD R2, #31
+ADD R2, #14
 SW R2, R1
 ADD R1, #1
 
-; O
-MOV R2, #79
+; ---------------- O (79) ----------------
+MOV R2, #31
+ADD R2, #31     ; 62
+ADD R2, #17     ; 62 + 17 = 79
 SW R2, R1
 ADD R1, #1
 
-; newline (\n)
+; ---------------- newline (10) ----------
 MOV R2, #10
 SW R2, R1
 

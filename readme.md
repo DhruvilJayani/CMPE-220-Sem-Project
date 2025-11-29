@@ -102,7 +102,10 @@ Full details → [`docs/MEMORY_MAP.md`](docs/MEMORY_MAP.md)
 - `make` utility  
 - Linux / macOS / WSL environment
 
-### Build
+### To Run
 ```bash
 make clean
 make
+./cpu_sim timer_demo
+./cpu_sim fibonacci
+./cpu_sim hello

@@ -3,7 +3,10 @@
 This project implements a **software CPU simulator in C** with a custom 16-bit instruction set, assembler, and execution environment.
 
 ---
+## Demo Video
 
+[![Demo Video](https://img.youtube.com/vi/a9EEQqkkipE/0.jpg)](https://www.youtube.com/watch?v=a9EEQqkkipE)
+---
 ## 👥 Team Members
 - **Adityaraj Kaushik**  
 - **Dhruvil Jayani**  

@@ -9,7 +9,7 @@
 static int instr_count = 0;
 void initialize_cpu(CPU* cpu) {
     cpu->pc = 0;
-    cpu->flags = 0;//TODO use 5th bit for end of program 
+    cpu->flags = 0;
     cpu->sp = 0;
     for (int i = 0; i < MEMORY_SIZE; i++) cpu->memory[i] = 0;
 }
@@ -48,7 +48,7 @@ void fetch_decode_execute(CPU* cpu, const char* binfile) {
 }
 
 static int fetch_load_instr(CPU* cpu, const char* binfile) {
-    //TODO: Loop through each line of binary
+    
     printf("Fetching binary instruction one by one\n");
     /*FILE *file = fopen(binfile, "r");
     if (!file) {

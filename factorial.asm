@@ -1,26 +1,31 @@
 ; factorial.asm – manual numeric jumps (no labels)
-; Demonstrates recursion-like stack usage (conceptually)
-; R1 = n, R2 = result, R3 = temp, R5 = stack pointer, R6 = constant 1
+; Demonstrates recursion with proper stack usage
+; R1 = n (current value), R2 = result, R3 = temp, R4 = recursion depth counter
+; R5 = stack pointer, R6 = constant 1
 
-MOV R1, #5       ; n = 5
+MOV R1, #7       ; n = 5
 MOV R2, #1       ; result = 1
-MOV R5, #20      ; stack pointer = 20
-MOV R6, #1       ; const 1
-J #6             ; jump to factorial body
-HALT             ; 5  end of program (never hit directly)
+MOV R4, #0       ; depth counter = 0
+MOV R5, #100     ; stack pointer = 100
+MOV R6, #1       ; constant 1
+J #7             ; jump to factorial_push
+HALT             ; 6  end of program
 
-; 6: factorial_start
-CMP R1, #1       ; 6  compare n <= 1
-BLE #18          ; 7  if yes, go to factorial_end
-SW R1, R5        ; 8  push n
-ADD R5, #1       ; 9
-SUB R1, #1       ;10
-J #6             ;11 recursive call
-SUB R5, #1       ;12 pop (conceptually)
-LD R3, R5        ;13 load popped n
-MUL R2, R3       ;14 result *= n
-J #6             ;15 repeat until n<=1 (simulate recursion collapse)
-; 16 unused
-; 17 unused
-MOV R2, #1       ;18 factorial_end: base case result = 1
-HALT             ;19 stop
+; 7: factorial_push (recursion descent - push phase)
+CMP R1, R6       ; 7  compare n <= 1
+BLE #14          ; 8  if yes, start unwinding (factorial_pop)
+SW R1, R5        ; 9  push current n onto stack
+ADD R5, #1       ;10  increment stack pointer
+ADD R4, #1       ;11  increment depth counter
+SUB R1, #1       ;12  n = n - 1
+J #7             ;13  recursive call (continue descending)
+
+; 14: factorial_pop (recursion ascent - pop and multiply phase)
+CMP R4, #0       ;14  check if depth counter = 0
+BLE #21          ;15  if yes, done - jump to end
+SUB R5, #1       ;16  decrement stack pointer
+LD R3, R5        ;17  pop n value from stack
+MUL R2, R3       ;18  result = result * n
+SUB R4, #1       ;19  decrement depth counter
+J #14            ;20  continue unwinding
+HALT             ;21  end - result in R2

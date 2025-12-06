@@ -9,7 +9,7 @@ int factorial(int n) {
 }
 
 int main() {
-    int num = 5;
+    int num = 7;
     int result = factorial(num);
     printf("Factorial of %d = %d\n", num, result);
     return 0;

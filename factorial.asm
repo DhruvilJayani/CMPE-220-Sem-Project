@@ -1,31 +1,31 @@
-; factorial.asm – manual numeric jumps (no labels)
-; Demonstrates recursion with proper stack usage
-; R1 = n (current value), R2 = result, R3 = temp, R4 = recursion depth counter
-; R5 = stack pointer, R6 = constant 1
+; factorial.asm – factorial using stack + two phases
+; R1 = n, R2 = result, R3 = temp, R4 = depth, R5 = SP, R6 = 1
 
-MOV R1, #7       ; n = 7
+MOV R1, #7       ; n = 7 (change to 5 for 5!)
 MOV R2, #1       ; result = 1
-MOV R4, #0       ; depth counter = 0
-MOV R5, #100     ; stack pointer = 100
+MOV R4, #0       ; depth = 0
+MOV R5, #100     ; stack base
 MOV R6, #1       ; constant 1
-J #7             ; jump to factorial_push
-HALT             ; 6  end of program
+J #7             ; go to push phase
+HALT             ; (unused safety end)
 
-; 7: factorial_push (recursion descent - push phase)
-CMP R1, R6       ; 7  compare n <= 1
-BLE #14          ; 8  if yes, start unwinding (factorial_pop)
-SW R1, R5        ; 9  push current n onto stack
-ADD R5, #1       ;10  increment stack pointer
-ADD R4, #1       ;11  increment depth counter
-SUB R1, #1       ;12  n = n - 1
-J #7             ;13  recursive call (continue descending)
+; ---- push phase: "recursive descent" ----
+; while (n > 1) push n, depth++, n--
+CMP R1, R6       ; 7  if n <= 1 → done descending
+BLE #14          ; 8  jump to pop phase
+SW R1, R5        ; 9  stack[SP] = n
+ADD R5, #1       ;10 SP++
+ADD R4, #1       ;11 depth++
+SUB R1, #1       ;12 n--
+J #7             ;13 loop
 
-; 14: factorial_pop (recursion ascent - pop and multiply phase)
-CMP R4, #0       ;14  check if depth counter = 0
-BLE #21          ;15  if yes, done - jump to end
-SUB R5, #1       ;16  decrement stack pointer
-LD R3, R5        ;17  pop n value from stack
-MUL R2, R3       ;18  result = result * n
-SUB R4, #1       ;19  decrement depth counter
-J #14            ;20  continue unwinding
-HALT             ;21  end - result in R2
+; ---- pop phase: "recursive unwind" ----
+; while (depth > 0) { SP--, result *= stack[SP], depth-- }
+CMP R4, #0       ;14 if depth == 0 → done
+BLE #21          ;15 jump to final HALT
+SUB R5, #1       ;16 SP--
+LD  R3, R5       ;17 temp = stack[SP]
+MUL R2, R3       ;18 result *= temp
+SUB R4, #1       ;19 depth--
+J #14            ;20 loop
+HALT             ;21 end, R2 holds n!

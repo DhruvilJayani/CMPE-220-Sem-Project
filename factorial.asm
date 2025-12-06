@@ -3,7 +3,7 @@
 ; R1 = n (current value), R2 = result, R3 = temp, R4 = recursion depth counter
 ; R5 = stack pointer, R6 = constant 1
 
-MOV R1, #7       ; n = 5
+MOV R1, #7       ; n = 7
 MOV R2, #1       ; result = 1
 MOV R4, #0       ; depth counter = 0
 MOV R5, #100     ; stack pointer = 100

@@ -6,6 +6,11 @@ This project implements a **software CPU simulator in C** with a custom 16-bit i
 ## Demo Video
 
 [![Demo Video](https://img.youtube.com/vi/a9EEQqkkipE/0.jpg)](https://www.youtube.com/watch?v=a9EEQqkkipE)
+
+## Demo Video for Program Layout & Execution (Factorial)
+
+[![Demo Video for Program Layout & Execution ](https://img.youtube.com/vi/oU6mRvzmbCU/0.jpg)](https://www.youtube.com/watch?v=oU6mRvzmbCU)
+
 ---
 ## 👥 Team Members
 - **Adityaraj Kaushik**  
